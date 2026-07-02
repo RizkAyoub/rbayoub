@@ -55,85 +55,89 @@ const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
             data-sending={p.submitting}
             data-submit-label={p.submit}
           >
-            <form id="contact-form" class="contact-form" novalidate>
+            <!-- Everything interactive lives here; hidden on success -->
+            <div id="contact-form-ui">
+              <form id="contact-form" class="contact-form" novalidate>
 
-              <!-- Formspree metadata -->
-              <input type="hidden" name="_subject" value="Nouvelle demande de contact — RB AYOUB Solutions" />
-              <!-- Honeypot — les robots remplissent ce champ; Formspree ignore la soumission -->
-              <input
-                type="text"
-                name="_gotcha"
-                tabindex="-1"
-                autocomplete="off"
-                aria-hidden="true"
-                style="display:none"
-              />
-
-              <div class="field">
-                <label for="name" class="field-label">{p.labels.name}</label>
+                <!-- Formspree metadata -->
+                <input type="hidden" name="_subject" value="Nouvelle demande de contact — RB AYOUB Solutions" />
+                <!-- Honeypot — les robots remplissent ce champ; Formspree ignore la soumission -->
                 <input
                   type="text"
-                  id="name"
-                  name="name"
-                  autocomplete="name"
-                  required
+                  name="_gotcha"
+                  tabindex="-1"
+                  autocomplete="off"
+                  aria-hidden="true"
+                  style="display:none"
                 />
-              </div>
 
-              <div class="field">
-                <label for="email" class="field-label">{p.labels.email}</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  autocomplete="email"
-                  required
-                />
-              </div>
+                <div class="field">
+                  <label for="name" class="field-label">{p.labels.name}</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    autocomplete="name"
+                    required
+                  />
+                </div>
 
-              <div class="field">
-                <label for="org" class="field-label">{p.labels.org}</label>
-                <input
-                  type="text"
-                  id="org"
-                  name="organization"
-                  autocomplete="organization"
-                />
-              </div>
+                <div class="field">
+                  <label for="email" class="field-label">{p.labels.email}</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    autocomplete="email"
+                    required
+                  />
+                </div>
 
-              <div class="field">
-                <label for="mandate-type" class="field-label">{p.labels.mandateType}</label>
-                <select id="mandate-type" name="mandateType">
-                  <option value="" disabled selected>{p.mandateTypeDefault}</option>
-                  {p.mandateTypes.map((mt: string) => (
-                    <option value={mt}>{mt}</option>
-                  ))}
-                </select>
-              </div>
+                <div class="field">
+                  <label for="org" class="field-label">{p.labels.org}</label>
+                  <input
+                    type="text"
+                    id="org"
+                    name="organization"
+                    autocomplete="organization"
+                  />
+                </div>
 
-              <div class="field field-textarea">
-                <label for="message" class="field-label">{p.labels.message}</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows="6"
-                  required
-                ></textarea>
-              </div>
+                <div class="field">
+                  <label for="mandate-type" class="field-label">{p.labels.mandateType}</label>
+                  <select id="mandate-type" name="mandateType">
+                    <option value="" disabled selected>{p.mandateTypeDefault}</option>
+                    {p.mandateTypes.map((mt: string) => (
+                      <option value={mt}>{mt}</option>
+                    ))}
+                  </select>
+                </div>
 
-              <div class="form-footer">
-                <button type="submit" id="submit-btn" class="btn-submit">{p.submit}</button>
-                <p class="form-note">{p.contactNote}</p>
-              </div>
+                <div class="field field-textarea">
+                  <label for="message" class="field-label">{p.labels.message}</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    required
+                  ></textarea>
+                </div>
 
-              <!-- Error message — shown on failed submission -->
-              <p id="form-error" class="form-feedback form-feedback--error" hidden>
+                <div class="form-footer">
+                  <button type="submit" id="submit-btn" class="btn-submit">{p.submit}</button>
+                  <p class="form-note">{p.contactNote}</p>
+                </div>
+
+              </form>
+
+              <!-- Error message — inside form-ui so it hides with the rest on success -->
+              <p id="contact-error" class="form-feedback form-feedback--error" hidden>
                 {p.errorMessage}
               </p>
-            </form>
+            </div>
 
-            <!-- Success state — replaces form on successful submission -->
-            <div id="form-success" class="form-success" hidden>
+            <!-- Success state — shown after successful submission -->
+            <div id="contact-success" class="form-success" hidden>
               <p class="form-success__message">{p.successMessage}</p>
             </div>
           </div>
@@ -148,12 +152,13 @@ const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
 <script is:inline>
   (function () {
     var wrapper   = document.getElementById('form-wrapper');
+    var formUi    = document.getElementById('contact-form-ui');
     var form      = document.getElementById('contact-form');
     var btn       = document.getElementById('submit-btn');
-    var errorEl   = document.getElementById('form-error');
-    var successEl = document.getElementById('form-success');
+    var errorEl   = document.getElementById('contact-error');
+    var successEl = document.getElementById('contact-success');
 
-    if (!wrapper || !form || !btn) return;
+    if (!wrapper || !formUi || !form || !btn) return;
 
     var endpoint    = wrapper.dataset.endpoint;
     var sendingText = wrapper.dataset.sending;
@@ -190,9 +195,9 @@ const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
         .then(function () {
           submittedSuccessfully = true;
           form.reset();
-          form.hidden    = true;
-          errorEl.hidden   = true;
+          formUi.hidden    = true;
           successEl.hidden = false;
+          errorEl.hidden   = true;
         })
         .catch(function () {
           errorEl.hidden = false;
@@ -207,6 +212,9 @@ const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
 </script>
 
 <style>
+  /* Ensure the HTML hidden attribute always wins over display rules */
+  [hidden] { display: none !important; }
+
   .page-header {
     padding-block: 4rem 3.5rem;
     max-width: 600px;
