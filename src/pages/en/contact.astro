@@ -149,10 +149,10 @@ const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
 
 <script is:inline>
   (function () {
-    var wrapper = document.getElementById('form-wrapper');
-    var form    = document.getElementById('contact-form');
-    var btn     = document.getElementById('submit-btn');
-    var errorEl = document.getElementById('form-error');
+    var wrapper   = document.getElementById('form-wrapper');
+    var form      = document.getElementById('contact-form');
+    var btn       = document.getElementById('submit-btn');
+    var errorEl   = document.getElementById('form-error');
     var successEl = document.getElementById('form-success');
 
     if (!wrapper || !form || !btn) return;
@@ -161,45 +161,48 @@ const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
     var sendingText = wrapper.dataset.sending;
     var submitText  = wrapper.dataset.submitLabel;
 
+    function setLoading(loading) {
+      btn.disabled    = loading;
+      btn.textContent = loading ? sendingText : submitText;
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      // Reset error state
       errorEl.hidden = true;
 
-      // Guard: no endpoint configured (local dev without .env)
       if (!endpoint) {
         errorEl.hidden = false;
         return;
       }
 
-      btn.disabled = true;
-      btn.textContent = sendingText;
+      var submittedSuccessfully = false;
 
-      var data = new FormData(form);
+      setLoading(true);
 
       fetch(endpoint, {
         method: 'POST',
         headers: { 'Accept': 'application/json' },
-        body: data,
+        body: new FormData(form),
       })
         .then(function (res) {
-          return res.json().then(function (json) {
-            return { ok: res.ok, json: json };
-          });
+          if (!res.ok) throw new Error('submission_failed');
+          return res.json();
         })
-        .then(function (result) {
-          if (result.ok) {
-            form.hidden = true;
-            successEl.hidden = false;
-          } else {
-            throw new Error(result.json.error || 'error');
-          }
+        .then(function () {
+          submittedSuccessfully = true;
+          form.reset();
+          form.hidden   = true;
+          errorEl.hidden  = true;
+          successEl.hidden = false;
         })
         .catch(function () {
           errorEl.hidden = false;
-          btn.disabled = false;
-          btn.textContent = submitText;
+        })
+        .finally(function () {
+          if (!submittedSuccessfully) {
+            setLoading(false);
+          }
         });
     });
   })();
