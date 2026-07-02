@@ -377,8 +377,13 @@ export const fr: ContentSchema = {
       'Autre',
     ],
     submit: 'Envoyer le message',
+    submitting: 'Envoi en cours…',
+    successMessage:
+      'Votre message a bien été reçu. Nous examinerons votre demande et donnerons suite sous peu.',
+    errorMessage:
+      'Le message n\'a pas pu être envoyé. Veuillez réessayer ou écrire directement à hello@rbayoub.com.',
     contactNote:
-      'L\'envoi ouvre votre client courriel. Précisez le contexte, les contraintes, l\'échéancier et si le travail est consultatif, de conception seulement ou avec accompagnement à la livraison. Vous pouvez aussi écrire directement à hello@rbayoub.com.',
+      'Précisez le contexte, les contraintes, l\'échéancier et si le travail est consultatif, de conception seulement ou avec accompagnement à la livraison. Vous pouvez aussi écrire directement à hello@rbayoub.com.',
     emailLabel: 'Courriel',
     email: 'hello@rbayoub.com',
     linkedinLabel: 'LinkedIn',

@@ -375,8 +375,13 @@ export const en = {
       'Other',
     ],
     submit: 'Send message',
+    submitting: 'Sending…',
+    successMessage:
+      'Your message has been received. We will review your request and follow up shortly.',
+    errorMessage:
+      'The message could not be sent. Please try again or write directly to hello@rbayoub.com.',
     contactNote:
-      'Submitting opens your email client. Include context, constraints, timeline, and whether the work is advisory, design-only, or delivery-supported. You may also write directly to hello@rbayoub.com.',
+      'Include context, constraints, timeline, and whether the work is advisory, design-only, or delivery-supported. You may also write directly to hello@rbayoub.com.',
     emailLabel: 'Email',
     email: 'hello@rbayoub.com',
     linkedinLabel: 'LinkedIn',

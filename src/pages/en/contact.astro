@@ -6,6 +6,8 @@ const lang = 'en';
 const t = getContent(lang);
 const p = t.contact;
 const meta = t.meta.contact;
+
+const formspreeEndpoint = import.meta.env.PUBLIC_FORMSPREE_ENDPOINT ?? '';
 ---
 
 <BaseLayout lang={lang} title={meta.title} description={meta.description} currentPage="contact">
@@ -49,69 +51,94 @@ const meta = t.meta.contact;
 
         <!-- Form -->
         <div class="contact-form-col">
-          <form
-            class="contact-form"
-            action={`mailto:${p.email}?subject=Mandate inquiry — RB AYOUB Solutions Inc.`}
-            method="POST"
-            enctype="text/plain"
+          <div
+            id="form-wrapper"
+            data-endpoint={formspreeEndpoint}
+            data-sending={p.submitting}
+            data-submit-label={p.submit}
           >
-            <div class="field">
-              <label for="name" class="field-label">{p.labels.name}</label>
+            <form id="contact-form" class="contact-form" novalidate>
+
+              <!-- Formspree metadata -->
+              <input type="hidden" name="_subject" value="New RB AYOUB Solutions contact request" />
+              <!-- Honeypot — bots fill this; Formspree silently discards the submission -->
               <input
                 type="text"
-                id="name"
-                name="name"
-                autocomplete="name"
-                required
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+                style="display:none"
               />
-            </div>
 
-            <div class="field">
-              <label for="email" class="field-label">{p.labels.email}</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                autocomplete="email"
-                required
-              />
-            </div>
+              <div class="field">
+                <label for="name" class="field-label">{p.labels.name}</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  autocomplete="name"
+                  required
+                />
+              </div>
 
-            <div class="field">
-              <label for="org" class="field-label">{p.labels.org}</label>
-              <input
-                type="text"
-                id="org"
-                name="organization"
-                autocomplete="organization"
-              />
-            </div>
+              <div class="field">
+                <label for="email" class="field-label">{p.labels.email}</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  autocomplete="email"
+                  required
+                />
+              </div>
 
-            <div class="field">
-              <label for="mandate-type" class="field-label">{p.labels.mandateType}</label>
-              <select id="mandate-type" name="mandate_type">
-                <option value="" disabled selected>{p.mandateTypeDefault}</option>
-                {p.mandateTypes.map((mt: string) => (
-                  <option value={mt}>{mt}</option>
-                ))}
-              </select>
-            </div>
+              <div class="field">
+                <label for="org" class="field-label">{p.labels.org}</label>
+                <input
+                  type="text"
+                  id="org"
+                  name="organization"
+                  autocomplete="organization"
+                />
+              </div>
 
-            <div class="field field-textarea">
-              <label for="message" class="field-label">{p.labels.message}</label>
-              <textarea
-                id="message"
-                name="message"
-                rows="6"
-                required
-              ></textarea>
-            </div>
+              <div class="field">
+                <label for="mandate-type" class="field-label">{p.labels.mandateType}</label>
+                <select id="mandate-type" name="mandateType">
+                  <option value="" disabled selected>{p.mandateTypeDefault}</option>
+                  {p.mandateTypes.map((mt: string) => (
+                    <option value={mt}>{mt}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div class="form-footer">
-              <button type="submit" class="btn-submit">{p.submit}</button>
-              <p class="form-note">{p.contactNote}</p>
+              <div class="field field-textarea">
+                <label for="message" class="field-label">{p.labels.message}</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="6"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="form-footer">
+                <button type="submit" id="submit-btn" class="btn-submit">{p.submit}</button>
+                <p class="form-note">{p.contactNote}</p>
+              </div>
+
+              <!-- Error message — shown on failed submission -->
+              <p id="form-error" class="form-feedback form-feedback--error" hidden>
+                {p.errorMessage}
+              </p>
+            </form>
+
+            <!-- Success state — replaces form on successful submission -->
+            <div id="form-success" class="form-success" hidden>
+              <p class="form-success__message">{p.successMessage}</p>
             </div>
-          </form>
+          </div>
         </div>
 
       </div>
@@ -119,6 +146,64 @@ const meta = t.meta.contact;
     </div>
   </div>
 </BaseLayout>
+
+<script is:inline>
+  (function () {
+    var wrapper = document.getElementById('form-wrapper');
+    var form    = document.getElementById('contact-form');
+    var btn     = document.getElementById('submit-btn');
+    var errorEl = document.getElementById('form-error');
+    var successEl = document.getElementById('form-success');
+
+    if (!wrapper || !form || !btn) return;
+
+    var endpoint    = wrapper.dataset.endpoint;
+    var sendingText = wrapper.dataset.sending;
+    var submitText  = wrapper.dataset.submitLabel;
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Reset error state
+      errorEl.hidden = true;
+
+      // Guard: no endpoint configured (local dev without .env)
+      if (!endpoint) {
+        errorEl.hidden = false;
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = sendingText;
+
+      var data = new FormData(form);
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: data,
+      })
+        .then(function (res) {
+          return res.json().then(function (json) {
+            return { ok: res.ok, json: json };
+          });
+        })
+        .then(function (result) {
+          if (result.ok) {
+            form.hidden = true;
+            successEl.hidden = false;
+          } else {
+            throw new Error(result.json.error || 'error');
+          }
+        })
+        .catch(function () {
+          errorEl.hidden = false;
+          btn.disabled = false;
+          btn.textContent = submitText;
+        });
+    });
+  })();
+</script>
 
 <style>
   .page-header {
@@ -269,9 +354,14 @@ const meta = t.meta.contact;
     flex-shrink: 0;
   }
 
-  .btn-submit:hover {
+  .btn-submit:hover:not(:disabled) {
     background: transparent;
     color: var(--color-accent);
+  }
+
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   .form-note {
@@ -281,6 +371,36 @@ const meta = t.meta.contact;
     line-height: 1.7;
     max-width: 40ch;
     padding-top: 0.125rem;
+  }
+
+  /* ── Feedback messages ── */
+  .form-feedback {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    padding: 0.875rem 1rem;
+    border-radius: 2px;
+    margin: 0;
+  }
+
+  .form-feedback--error {
+    color: #7a2e2e;
+    background: #fdf2f2;
+    border: 1px solid #e8c5c5;
+  }
+
+  /* ── Success state ── */
+  .form-success {
+    padding: 3rem 0;
+  }
+
+  .form-success__message {
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--color-ink);
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.25rem;
+    max-width: 54ch;
+    margin: 0;
   }
 
   /* ── Responsive ── */
