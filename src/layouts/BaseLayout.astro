@@ -1,0 +1,215 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import type { Lang } from '../i18n/index';
+import { getContent, getAlternatePath } from '../i18n/index';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  currentPage?: string;
+}
+
+const {
+  lang,
+  title,
+  description,
+  currentPage = '',
+} = Astro.props;
+
+const t = getContent(lang);
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const alternateLang = lang === 'en' ? 'fr' : 'en';
+const alternatePath = getAlternatePath(Astro.url.pathname, alternateLang);
+const alternateURL = new URL(alternatePath, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#F5F3EF" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Alternate language -->
+    <link rel="alternate" hreflang={lang} href={canonicalURL} />
+    <link rel="alternate" hreflang={alternateLang} href={alternateURL} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site)} />
+
+    <!-- Open Graph (no image — editorial text-only brand) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t.meta.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:locale" content={lang === 'fr' ? 'fr_CA' : 'en_CA'} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "RB AYOUB Solutions Inc.",
+      "description": "Canadian boutique technology architecture and consulting firm.",
+      "url": "https://rbayoub.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Laval",
+        "addressRegion": "QC",
+        "addressCountry": "CA"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "hello@rbayoub.com",
+        "contactType": "Business"
+      }
+    })} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts: Cormorant Garamond (display) + DM Sans (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-bg text-ink font-body antialiased">
+    <Header lang={lang} currentPath={Astro.url.pathname} currentPage={currentPage} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <Footer lang={lang} />
+  </body>
+</html>
+
+<style is:global>
+  /* ─── Design tokens ─────────────────────────────────── */
+  :root {
+    --color-bg:      #F5F3EF;
+    --color-surface: #ECEAE5;
+    --color-ink:     #161615;
+    --color-muted:   #6F6B63;
+    --color-accent:  #263B33;
+    --color-border:  #DCD8D0;
+  }
+
+  /* ─── Base resets ───────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-font-smoothing: antialiased; }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-ink);
+    min-height: 100vh;
+  }
+
+  /* ─── Typography primitives ─────────────────────────── */
+  .font-display { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  p {
+    margin-block: 0;
+  }
+
+  /* ─── Focus visible ─────────────────────────────────── */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ─── Selection ─────────────────────────────────────── */
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  /* ─── Scrollbar ─────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--color-bg); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  /* ─── Transitions ───────────────────────────────────── */
+  a { transition: color 0.2s ease, opacity 0.2s ease; }
+
+  /* ─── Layout utilities ──────────────────────────────── */
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 2rem;
+  }
+
+  @media (max-width: 640px) {
+    .container { padding-inline: 1.25rem; }
+  }
+
+  /* ─── Rule line ─────────────────────────────────────── */
+  .rule {
+    border: none;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* ─── Eyebrow label ─────────────────────────────────── */
+  .eyebrow {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* ─── Page section spacing ──────────────────────────── */
+  .section {
+    padding-block: 6rem;
+  }
+
+  @media (max-width: 768px) {
+    .section { padding-block: 4rem; }
+  }
+
+  /* ─── Skip link (a11y) ──────────────────────────────── */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-size: 0.875rem;
+    border-radius: 0 0 4px 4px;
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus { top: 0; }
+</style>

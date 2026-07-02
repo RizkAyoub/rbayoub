@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getContent } from '../../i18n/index';
+
+const lang = 'fr';
+const t = getContent(lang);
+const p = t.company;
+const meta = t.meta.company;
+---
+
+<BaseLayout lang={lang} title={meta.title} description={meta.description} currentPage="company">
+  <div class="section" aria-labelledby="company-headline">
+    <div class="container">
+
+      <header class="page-header">
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1 id="company-headline" class="page-headline font-display">{p.headline}</h1>
+        <p class="page-intro">{p.intro}</p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="company-section">
+        <div class="section-label">
+          <p class="eyebrow label-text">{p.principalLabel}</p>
+        </div>
+        <div class="section-body">
+          <p class="body-text">{p.principal}</p>
+        </div>
+      </div>
+
+      <hr class="rule section-rule" />
+
+      <div class="company-section">
+        <div class="section-label">
+          <p class="eyebrow label-text">{p.capabilitiesLabel}</p>
+        </div>
+        <div class="section-body">
+          <ul class="item-list" role="list">
+            {p.capabilities.map((item: string) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <hr class="rule section-rule" />
+
+      <div class="company-section">
+        <div class="section-label">
+          <p class="eyebrow label-text">{p.principlesLabel}</p>
+        </div>
+        <div class="section-body">
+          <ul class="item-list principles-list" role="list">
+            {p.principles.map((item: string) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <hr class="rule section-rule" />
+
+      <div class="company-section rd-section">
+        <div class="section-label">
+          <p class="eyebrow label-text">{p.rdLabel}</p>
+        </div>
+        <div class="section-body">
+          <p class="body-text rd-note">{p.rdNote}</p>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="company-cta">
+        <a href={`/${lang}/contact`} class="btn btn-primary">{t.home.cta1}</a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: 4rem 3.5rem;
+    max-width: 680px;
+  }
+
+  .eyebrow {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-headline {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+
+  .page-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .company-section {
+    display: grid;
+    grid-template-columns: 14rem 1fr;
+    gap: 0 4rem;
+    padding-block: 3rem;
+    align-items: start;
+  }
+
+  .section-label {
+    padding-top: 0.15em;
+  }
+
+  .label-text {
+    margin-bottom: 0;
+  }
+
+  .section-rule {
+    margin: 0;
+  }
+
+  .body-text {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  .item-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .item-list li {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    padding-left: 1.125rem;
+    position: relative;
+    line-height: 1.6;
+  }
+
+  .item-list li:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .item-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    top: 0.9rem;
+  }
+
+  .rd-section {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .rd-note {
+    font-size: 0.875rem;
+    line-height: 1.85;
+    color: var(--color-muted);
+    opacity: 0.85;
+    max-width: 60ch;
+  }
+
+  .company-cta {
+    padding-block: 3rem 2rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: 1px solid var(--color-accent);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 900px) {
+    .company-section {
+      grid-template-columns: 10rem 1fr;
+      gap: 0 2.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .company-section {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+      padding-block: 2.25rem;
+    }
+  }
+</style>

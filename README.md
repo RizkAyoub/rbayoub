@@ -1,0 +1,201 @@
+# rbayoub.com
+
+Personal website for RB Ayoub — Senior Solutions & Enterprise Architect.
+
+---
+
+## Stack
+
+| Layer        | Technology         | Rationale                                                              |
+|--------------|--------------------|------------------------------------------------------------------------|
+| Framework    | Astro 4            | Static-first, zero client JS by default, excellent SEO primitives      |
+| Styling      | Tailwind CSS       | Utility-first, no runtime, purged at build                             |
+| Language     | TypeScript         | Type safety for content contracts; prevents content drift              |
+| i18n         | Custom (no library) | Two languages only; a library would be disproportionate overhead       |
+| Fonts        | Google Fonts CDN   | Cormorant Garamond + DM Sans; loaded with `display=swap`               |
+| Deployment   | Vercel             | Static output, global CDN, zero config for Astro                       |
+| Forms        | Formspree (option) | No backend required; swap URL in contact pages                         |
+| Sitemap      | @astrojs/sitemap   | Automatic EN/FR hreflang generation; zero configuration cost           |
+
+**Dependencies: 4.** Nothing more is needed and nothing has been added for appearances.
+
+---
+
+## Project structure
+
+```
+src/
+├── i18n/
+│   ├── en.ts          # All English content — single source of truth
+│   ├── fr.ts          # All French content — curated, not translated
+│   └── index.ts       # Content resolver, path utilities
+├── layouts/
+│   └── BaseLayout.astro  # HTML shell, meta, fonts, global CSS
+├── components/
+│   ├── Header.astro   # Sticky nav, language switcher
+│   └── Footer.astro   # Minimal footer
+└── pages/
+    ├── index.astro    # Language detection + redirect (inline script)
+    ├── 404.astro      # Bilingual 404
+    ├── en/            # English pages
+    │   ├── index.astro
+    │   ├── about.astro
+    │   ├── expertise.astro
+    │   ├── work.astro
+    │   ├── philosophy.astro
+    │   └── contact.astro
+    └── fr/            # French pages (mirror structure)
+        ├── index.astro
+        ├── about.astro
+        ├── expertise.astro
+        ├── work.astro
+        ├── philosophy.astro
+        └── contact.astro
+```
+
+---
+
+## Local development
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+---
+
+## Deployment on Vercel
+
+### First deployment
+
+1. Push the repository to GitHub (or GitLab / Bitbucket).
+2. Go to [vercel.com](https://vercel.com) → **Add New Project**.
+3. Import the repository.
+4. Vercel auto-detects Astro. No framework configuration needed.
+5. Set **Output Directory** to `dist` (Vercel detects this automatically).
+6. Click **Deploy**.
+
+### Environment & domain
+
+1. In Vercel project settings → **Domains**, add `rbayoub.com` and `www.rbayoub.com`.
+2. Add a redirect from `www` → apex in Vercel or via your DNS provider.
+3. Vercel provisions TLS automatically.
+
+### Continuous deployment
+
+Every push to `main` triggers a production deployment.
+Pull request previews are enabled by default — useful for content reviews.
+
+---
+
+## Language behavior
+
+- `/` → detects `localStorage['rba-lang']` first, then `navigator.language`.
+- If French → redirects to `/fr/`. Otherwise → `/en/`.
+- Manual switcher in header updates `localStorage` and navigates to the equivalent page.
+- `hreflang` alternate links are set on every page for search engine correctness.
+- `x-default` points to `/en/` as the universal fallback.
+
+---
+
+## Updating content
+
+All copy lives in two files:
+
+```
+src/i18n/en.ts   ← English
+src/i18n/fr.ts   ← French
+```
+
+Both are typed against the `Content` type exported from `en.ts`. TypeScript will
+error at build time if the French file is missing a field or has a type mismatch.
+This prevents silent content drift between languages.
+
+To add a new engagement on the Work page:
+1. Add an entry to `en.ts → work.engagements`.
+2. Add the corresponding French entry to `fr.ts → work.engagements`.
+3. `npm run build` — TypeScript validates structure; Astro regenerates all pages.
+
+---
+
+## Contact form
+
+The form currently points to `https://formspree.io/f/YOUR_FORM_ID`.
+
+**To activate:**
+1. Create a free account at [formspree.io](https://formspree.io).
+2. Create a form → copy the form ID.
+3. Replace `YOUR_FORM_ID` in `src/pages/en/contact.astro` and `src/pages/fr/contact.astro`.
+
+**Alternatives:** Netlify Forms, Resend + a lightweight API route, or any POST endpoint.
+
+---
+
+## SEO checklist
+
+- [x] Per-page `<title>` and `<meta name="description">`
+- [x] Open Graph tags (title, description, URL, image, locale)
+- [x] `hreflang` alternate links on every page
+- [x] `x-default` hreflang pointing to `/en/`
+- [x] Canonical URL on every page
+- [x] Semantic HTML heading structure (single `h1` per page)
+- [x] `sitemap-index.xml` generated by `@astrojs/sitemap`
+- [x] `robots.txt` with sitemap reference
+- [x] Skip-to-content link for accessibility
+- [x] `aria-label`, `aria-current`, `aria-hidden` on nav and interactive elements
+- [x] Keyboard navigable (no `tabindex` hacks, natural DOM order)
+
+---
+
+## Architectural rationale
+
+### Why Astro, not Next.js
+
+This site is substantially static content with bilingual copy and a contact form.
+Next.js adds React hydration, a client runtime, and a server rendering model
+that this use case does not require. Astro ships zero JavaScript by default and
+generates pure HTML at build time. The result is faster, simpler, and more
+aligned with the site's own philosophy of minimal robust stacks.
+
+### Why a custom i18n solution, not `next-intl` or `i18next`
+
+Two languages. Fixed URL structure. All content in TypeScript objects.
+A full i18n library would introduce hundreds of kilobytes of dependency for
+problems that twelve lines of TypeScript already solve. The content contract
+is enforced by the type system, not by a runtime library.
+
+### Why Tailwind CSS
+
+Tailwind is purged at build time — no stylesheet is shipped beyond what is used.
+The design system is expressed in `tailwind.config.ts` as explicit tokens
+(colors, spacing, typography), making the visual language auditable and
+maintainable without tooling. Scoped `<style>` blocks in Astro components
+handle component-specific styles; Tailwind handles layout utilities.
+
+### Why no animation library
+
+The site uses CSS `transition` and `opacity` only. No Framer Motion, no GSAP,
+no scroll-trigger library. Restraint in motion reflects the same principle as
+restraint in stack selection: add nothing that cannot justify its weight.
+
+### On the content architecture
+
+Content is typed. Changes to structure are caught at build time.
+FR content is a typed implementation of the EN type, not a runtime record map.
+This means a missing French field fails the build — it does not silently render
+an empty string or fall back to English without anyone noticing.
+
+---
+
+## License
+
+Private. All rights reserved. RB Ayoub.

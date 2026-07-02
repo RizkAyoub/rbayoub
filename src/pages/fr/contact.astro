@@ -1,0 +1,293 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getContent } from '../../i18n/index';
+
+const lang = 'fr';
+const t = getContent(lang);
+const p = t.contact;
+const meta = t.meta.contact;
+---
+
+<BaseLayout lang={lang} title={meta.title} description={meta.description} currentPage="contact">
+  <div class="section" aria-labelledby="contact-headline">
+    <div class="container">
+
+      <header class="page-header">
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1 id="contact-headline" class="page-headline font-display">{p.headline}</h1>
+        <p class="page-intro">{p.intro}</p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="contact-grid">
+
+        <div class="contact-direct">
+          <dl class="contact-list">
+            <div class="contact-item">
+              <dt class="eyebrow">{p.emailLabel}</dt>
+              <dd>
+                <a href={`mailto:${p.email}`} class="contact-link">{p.email}</a>
+              </dd>
+            </div>
+            <div class="contact-item">
+              <dt class="eyebrow">{p.linkedinLabel}</dt>
+              <dd>
+                <a
+                  href={p.linkedinHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="contact-link"
+                >
+                  {p.linkedin}
+                </a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="contact-form-col">
+          <form
+            class="contact-form"
+            action={`mailto:${p.email}?subject=Demande de mandat — RB AYOUB Solutions Inc.`}
+            method="POST"
+            enctype="text/plain"
+          >
+            <div class="field">
+              <label for="name" class="field-label">{p.labels.name}</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="email" class="field-label">{p.labels.email}</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="field">
+              <label for="org" class="field-label">{p.labels.org}</label>
+              <input
+                type="text"
+                id="org"
+                name="organization"
+                autocomplete="organization"
+              />
+            </div>
+
+            <div class="field">
+              <label for="mandate-type" class="field-label">{p.labels.mandateType}</label>
+              <select id="mandate-type" name="mandate_type">
+                <option value="" disabled selected>{p.mandateTypeDefault}</option>
+                {p.mandateTypes.map((mt: string) => (
+                  <option value={mt}>{mt}</option>
+                ))}
+              </select>
+            </div>
+
+            <div class="field field-textarea">
+              <label for="message" class="field-label">{p.labels.message}</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="6"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-footer">
+              <button type="submit" class="btn-submit">{p.submit}</button>
+              <p class="form-note">{p.contactNote}</p>
+            </div>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: 4rem 3.5rem;
+    max-width: 600px;
+  }
+
+  .eyebrow {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-headline {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+
+  .page-intro {
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+    max-width: 54ch;
+    margin: 0;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    padding-block: 4rem 3rem;
+    align-items: start;
+  }
+
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin: 0;
+  }
+
+  .contact-item dt {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-item dd {
+    margin: 0;
+  }
+
+  .contact-link {
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1px;
+    transition: border-color 0.18s, color 0.18s;
+  }
+
+  .contact-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field-label {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  input,
+  textarea,
+  select {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    padding: 0.625rem 0;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.18s;
+    appearance: none;
+    border-radius: 0;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236F6B63' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    padding-right: 1.5rem;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-bottom-color: var(--color-ink);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 9rem;
+    line-height: 1.7;
+  }
+
+  .form-footer {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+  }
+
+  .btn-submit {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    padding: 0.75rem 1.875rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    flex-shrink: 0;
+  }
+
+  .btn-submit:hover {
+    background: transparent;
+    color: var(--color-accent);
+  }
+
+  .form-note {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin: 0;
+    line-height: 1.7;
+    max-width: 40ch;
+    padding-top: 0.125rem;
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .contact-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 2rem 3rem;
+    }
+  }
+</style>

@@ -1,0 +1,179 @@
+---
+import type { Lang } from '../i18n/index';
+import { getContent } from '../i18n/index';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getContent(lang);
+
+const navLinks = [
+  { label: t.nav.services, href: `/${lang}/services` },
+  { label: t.nav.work,     href: `/${lang}/work` },
+  { label: t.nav.method,   href: `/${lang}/method` },
+  { label: t.nav.company,  href: `/${lang}/company` },
+  { label: t.nav.contact,  href: `/${lang}/contact` },
+];
+---
+
+<footer class="site-footer" role="contentinfo">
+  <div class="container footer-inner">
+    <hr class="rule footer-rule-top" />
+
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href={`/${lang}/`} class="wordmark">RB AYOUB Solutions Inc.</a>
+        <p class="tagline">{t.footer.tagline}</p>
+        <p class="location">{t.footer.location}</p>
+      </div>
+
+      <nav class="footer-nav" aria-label={lang === 'fr' ? 'Navigation pied de page' : 'Footer navigation'}>
+        <ul role="list">
+          {navLinks.map(link => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <hr class="rule footer-rule" />
+
+    <div class="footer-bottom">
+      <p class="copyright">{t.footer.copyright}</p>
+      <a
+        href={t.contact.linkedinHref}
+        class="linkedin-link"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn profile"
+      >
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--color-border);
+    padding-block: 3.5rem 2.5rem;
+    margin-top: 6rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .footer-rule-top {
+    display: none;
+    margin: 0;
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 3rem;
+  }
+
+  .wordmark {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .wordmark:hover { opacity: 0.65; }
+
+  .tagline {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    margin: 0 0 0.35rem;
+    letter-spacing: 0.01em;
+    max-width: 26ch;
+  }
+
+  .location {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin: 0;
+    letter-spacing: 0.01em;
+    opacity: 0.75;
+  }
+
+  .footer-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    justify-content: flex-end;
+  }
+
+  .footer-nav a {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+
+  .footer-nav a:hover { color: var(--color-ink); }
+
+  .footer-rule {
+    margin: 0;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .copyright {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin: 0;
+    letter-spacing: 0.02em;
+  }
+
+  .linkedin-link {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+
+  .linkedin-link:hover { color: var(--color-ink); }
+
+  @media (max-width: 640px) {
+    .footer-top {
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .footer-nav ul {
+      justify-content: flex-start;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

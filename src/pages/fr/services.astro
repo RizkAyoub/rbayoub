@@ -1,0 +1,213 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getContent } from '../../i18n/index';
+
+const lang = 'fr';
+const t = getContent(lang);
+const p = t.services;
+const meta = t.meta.services;
+---
+
+<BaseLayout lang={lang} title={meta.title} description={meta.description} currentPage="services">
+  <div class="section" aria-labelledby="services-headline">
+    <div class="container">
+
+      <header class="page-header">
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1 id="services-headline" class="page-headline font-display">{p.headline}</h1>
+        <p class="page-intro">{p.intro}</p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="services-list">
+        {p.sections.map((svc) => (
+          <article class="service-item" aria-labelledby={`svc-${svc.id}`}>
+            <div class="svc-meta">
+              <span class="eyebrow svc-num">{svc.id}</span>
+            </div>
+
+            <div class="svc-body">
+              <h2 id={`svc-${svc.id}`} class="svc-title font-display">{svc.title}</h2>
+              <p class="svc-desc">{svc.description}</p>
+
+              <div class="deliverables">
+                <p class="deliverables-label eyebrow">{p.deliverablesLabel}</p>
+                <ul class="deliverables-list" role="list">
+                  {svc.deliverables.map((d: string) => (
+                    <li>{d}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <hr class="rule" />
+
+      <div class="page-cta">
+        <p class="cta-label eyebrow">{p.ctaLabel}</p>
+        <a href={`/${lang}/contact`} class="btn btn-primary">{t.home.cta1}</a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: 4rem 3.5rem;
+    max-width: 640px;
+  }
+
+  .eyebrow {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-headline {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+
+  .page-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .services-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service-item {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 0 3rem;
+    padding-block: 3.5rem;
+    border-bottom: 1px solid var(--color-border);
+    align-items: start;
+  }
+
+  .svc-meta {
+    padding-top: 0.3em;
+  }
+
+  .svc-num {
+    margin-bottom: 0;
+  }
+
+  .svc-title {
+    font-size: clamp(1.375rem, 2.5vw, 2rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    margin: 0 0 1.25rem;
+    line-height: 1.2;
+  }
+
+  .svc-desc {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0 0 2rem;
+    max-width: 62ch;
+  }
+
+  .deliverables-label {
+    margin-bottom: 0.875rem;
+  }
+
+  .deliverables-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .deliverables-list li {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .deliverables-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .deliverables-list li:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .page-cta {
+    padding-block: 3.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .cta-label {
+    margin-bottom: 0;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: 1px solid var(--color-accent);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .service-item {
+      grid-template-columns: 3.5rem 1fr;
+      gap: 0 1.5rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .service-item {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .svc-meta {
+      display: flex;
+      align-items: center;
+    }
+  }
+</style>

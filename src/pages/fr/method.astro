@@ -1,0 +1,177 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getContent } from '../../i18n/index';
+
+const lang = 'fr';
+const t = getContent(lang);
+const p = t.method;
+const meta = t.meta.method;
+---
+
+<BaseLayout lang={lang} title={meta.title} description={meta.description} currentPage="method">
+  <div class="section" aria-labelledby="method-headline">
+    <div class="container">
+
+      <header class="page-header">
+        <p class="eyebrow">{p.eyebrow}</p>
+        <h1 id="method-headline" class="page-headline font-display">{p.headline}</h1>
+        <p class="page-intro">{p.intro}</p>
+      </header>
+
+      <hr class="rule" />
+
+      <div class="steps">
+        {p.steps.map((step) => (
+          <div class="step">
+            <div class="step-meta">
+              <span class="step-number eyebrow">{step.number}</span>
+            </div>
+            <div class="step-body">
+              <h2 class="step-title font-display">{step.title}</h2>
+              <p class="step-desc">{step.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <hr class="rule" />
+
+      <div class="method-closing">
+        <p class="closing-text font-display">{p.closing}</p>
+      </div>
+
+      <div class="method-cta">
+        <a href={`/${lang}/contact`} class="btn btn-primary">{t.home.cta1}</a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-header {
+    padding-block: 4rem 3.5rem;
+    max-width: 680px;
+  }
+
+  .eyebrow {
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .page-headline {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+
+  .page-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    max-width: 60ch;
+    margin: 0;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 0 3rem;
+    padding-block: 2.75rem;
+    border-bottom: 1px solid var(--color-border);
+    align-items: start;
+  }
+
+  .step-meta {
+    padding-top: 0.3em;
+  }
+
+  .step-number {
+    margin-bottom: 0;
+    color: var(--color-accent);
+  }
+
+  .step-title {
+    font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--color-ink);
+    margin: 0 0 0.875rem;
+    line-height: 1.25;
+  }
+
+  .step-desc {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  .method-closing {
+    padding-block: 4rem;
+    max-width: 54ch;
+    border-left: 2px solid var(--color-accent);
+    padding-left: 2rem;
+    margin-top: 0.5rem;
+  }
+
+  .closing-text {
+    font-size: clamp(1.0625rem, 1.75vw, 1.3125rem);
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--color-ink);
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+
+  .method-cta {
+    padding-block: 0 3rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    transition: all 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border: 1px solid var(--color-accent);
+  }
+
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 640px) {
+    .step {
+      grid-template-columns: 3.5rem 1fr;
+      gap: 0 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .step {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+</style>
