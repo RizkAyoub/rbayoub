@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <style>
+      .lbl   { font-family: 'DM Sans','Helvetica Neue',Arial,sans-serif; font-size:10px; font-weight:500; letter-spacing:2px; fill:#6F6B63; }
+      .namea { font-family: Georgia,'Times New Roman',serif; font-size:76px; font-weight:400; fill:#161615; }
+      .nameb { font-family: Georgia,'Times New Roman',serif; font-size:44px; font-weight:400; fill:#9F9A90; }
+      .role  { font-family: 'DM Sans','Helvetica Neue',Arial,sans-serif; font-size:12px; font-weight:500; letter-spacing:2.5px; fill:#263B33; }
+      .loc   { font-family: 'DM Sans','Helvetica Neue',Arial,sans-serif; font-size:15px; font-weight:400; fill:#6F6B63; }
+      .desc  { font-family: 'DM Sans','Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:400; fill:#A8A29A; }
+      .ft    { font-family: 'DM Sans','Helvetica Neue',Arial,sans-serif; font-size:10px; font-weight:500; letter-spacing:1.8px; fill:#6F6B63; }
+      .url   { font-family: 'DM Sans','Helvetica Neue',Arial,sans-serif; font-size:10px; font-weight:400; fill:#A8A29A; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="630" fill="#F5F3EF"/>
+  <rect x="28" y="28" width="1144" height="574" fill="none" stroke="#DCD8D0" stroke-width="0.75"/>
+
+  <text x="72" y="62" class="lbl">RB AYOUB SOLUTIONS INC.</text>
+  <line x1="72" y1="80" x2="1128" y2="80" stroke="#DCD8D0" stroke-width="0.75"/>
+
+  <text x="72" y="206" class="namea">Rizk Ayoub</text>
+  <text x="72" y="265" class="nameb">/ Rizkallah Ayoub</text>
+
+  <line x1="72" y1="298" x2="128" y2="298" stroke="#263B33" stroke-width="1.5"/>
+  <text x="72" y="332" class="role">SOLUTIONS ARCHITECT</text>
+  <text x="72" y="368" class="loc">Montr&#233;al &#183; Qu&#233;bec</text>
+  <text x="72" y="404" class="desc">Public and professional name &#183; Legal and research name</text>
+
+  <line x1="900" y1="100" x2="900" y2="530" stroke="#DCD8D0" stroke-width="0.75"/>
+
+  <text x="932" y="148" class="lbl">COMPANIES</text>
+  <line x1="932" y1="162" x2="1128" y2="162" stroke="#DCD8D0" stroke-width="0.5"/>
+  <text x="932" y="190" class="loc">RB AYOUB Solutions Inc.</text>
+  <text x="932" y="212" class="desc">Architecture and consulting</text>
+  <text x="932" y="248" class="loc">EPICORTEK Technologies Inc.</text>
+  <text x="932" y="270" class="desc">R&amp;D and product development</text>
+
+  <text x="932" y="326" class="lbl">LOCATION</text>
+  <line x1="932" y1="340" x2="1128" y2="340" stroke="#DCD8D0" stroke-width="0.5"/>
+  <text x="932" y="368" class="loc">Montr&#233;al, Qu&#233;bec</text>
+  <text x="932" y="390" class="desc">Canada</text>
+
+  <text x="932" y="444" class="lbl">WEB</text>
+  <line x1="932" y1="458" x2="1128" y2="458" stroke="#DCD8D0" stroke-width="0.5"/>
+  <text x="932" y="486" class="url">rbayoub.com</text>
+  <text x="932" y="508" class="url">epicortek.com</text>
+
+  <line x1="72" y1="548" x2="1128" y2="548" stroke="#DCD8D0" stroke-width="0.75"/>
+  <text x="72" y="569" class="ft">RB AYOUB SOLUTIONS INC. &#183; EPICORTEK TECHNOLOGIES INC.</text>
+  <text x="1128" y="569" class="url" text-anchor="end">rbayoub.com</text>
+</svg>

@@ -3,8 +3,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const lang = 'fr';
 
-const CANONICAL = 'https://rbayoub.com/fr/rizk-ayoub/';
+const CANONICAL    = 'https://rbayoub.com/fr/rizk-ayoub/';
 const CANONICAL_EN = 'https://rbayoub.com/en/rizk-ayoub/';
+const OG_IMAGE     = 'https://rbayoub.com/brand/rizk-ayoub-card.png';
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -28,6 +29,7 @@ const personJsonLd = {
       "https://epicortek.com/en/company",
       "https://rbayoub.com/en/company"
     ],
+    "image": OG_IMAGE,
     "worksFor": {
       "@type": "Organization",
       "name": "RB AYOUB Solutions Inc.",
@@ -68,6 +70,12 @@ const personJsonLd = {
   suppressOrgJsonLd={true}
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+  <meta slot="head" property="og:image" content={OG_IMAGE} />
+  <meta slot="head" property="og:image:width" content="1200" />
+  <meta slot="head" property="og:image:height" content="630" />
+  <meta slot="head" property="og:image:type" content="image/png" />
+  <meta slot="head" name="twitter:card" content="summary_large_image" />
+  <meta slot="head" name="twitter:image" content={OG_IMAGE} />
 
   <div class="section" aria-labelledby="profile-headline">
     <div class="container">
