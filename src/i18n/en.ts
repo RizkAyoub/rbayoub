@@ -385,8 +385,8 @@ export const en = {
     emailLabel: 'Email',
     email: 'hello@rbayoub.com',
     linkedinLabel: 'LinkedIn',
-    linkedin: 'linkedin.com/company/rb-ayoub',
-    linkedinHref: 'https://linkedin.com/company/rb-ayoub',
+    linkedin: 'linkedin.com/in/rbayoub',
+    linkedinHref: 'https://www.linkedin.com/in/rbayoub',
   },
 
   footer: {
