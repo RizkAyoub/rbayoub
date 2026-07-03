@@ -63,6 +63,8 @@ if (!sitemap) {
     `${SITE}/fr/company`,
     `${SITE}/en/contact`,
     `${SITE}/fr/contact`,
+    `${SITE}/en/rizk-ayoub/`,
+    `${SITE}/fr/rizk-ayoub/`,
   ];
 
   for (const u of requiredURLs) {
@@ -90,9 +92,15 @@ if (!sitemap) {
 
   if (sitemap.includes('hreflang="x-default"')) {
     if (sitemap.includes(`href="${SITE}/"`)) {
-      pass(`x-default hreflang → ${SITE}/`);
+      pass(`x-default hreflang present (standard pages → ${SITE}/)`);
     } else {
-      warn('x-default hreflang found but may not point to root /');
+      warn('x-default hreflang found but root / may not be present');
+    }
+    // Profile pages have their own x-default pointing to the EN profile
+    if (sitemap.includes(`href="${SITE}/en/rizk-ayoub/"`)) {
+      pass(`Profile x-default → ${SITE}/en/rizk-ayoub/`);
+    } else {
+      fail(`Profile x-default missing: expected href="${SITE}/en/rizk-ayoub/" in sitemap`);
     }
   } else {
     fail('No x-default hreflang in sitemap');
@@ -113,6 +121,23 @@ const pages = [
   { file: 'fr/company/index.html',canonical: `${SITE}/fr/company`, hreflangEn: `${SITE}/en/company`, hreflangFr: `${SITE}/fr/company` },
   { file: 'en/contact/index.html',canonical: `${SITE}/en/contact`, hreflangEn: `${SITE}/en/contact`, hreflangFr: `${SITE}/fr/contact` },
   { file: 'fr/contact/index.html',canonical: `${SITE}/fr/contact`, hreflangEn: `${SITE}/en/contact`, hreflangFr: `${SITE}/fr/contact` },
+  // Profile pages — trailing slash canonical, x-default = EN profile
+  {
+    file: 'en/rizk-ayoub/index.html',
+    canonical: `${SITE}/en/rizk-ayoub/`,
+    hreflangEn: `${SITE}/en/rizk-ayoub/`,
+    hreflangFr: `${SITE}/fr/rizk-ayoub/`,
+    xDefault: `${SITE}/en/rizk-ayoub/`,
+    isProfilePage: true,
+  },
+  {
+    file: 'fr/rizk-ayoub/index.html',
+    canonical: `${SITE}/fr/rizk-ayoub/`,
+    hreflangEn: `${SITE}/en/rizk-ayoub/`,
+    hreflangFr: `${SITE}/fr/rizk-ayoub/`,
+    xDefault: `${SITE}/en/rizk-ayoub/`,
+    isProfilePage: true,
+  },
 ];
 
 for (const page of pages) {
@@ -152,11 +177,12 @@ for (const page of pages) {
   }
 
   // x-default
+  const expectedXDefault = page.xDefault ?? `${SITE}/`;
   if (html.includes('hreflang="x-default"')) {
-    if (html.includes(`href="${SITE}/"`)) {
-      pass(`x-default → ${SITE}/`);
+    if (html.includes(`href="${expectedXDefault}"`)) {
+      pass(`x-default → ${expectedXDefault}`);
     } else {
-      fail(`x-default hreflang does not point to ${SITE}/`);
+      fail(`x-default hreflang does not point to ${expectedXDefault}`);
     }
   } else {
     fail('Missing x-default hreflang');
@@ -185,6 +211,35 @@ for (const page of pages) {
   // noindex check — no content page should be noindex
   if (html.includes('noindex')) {
     fail('Page has noindex — remove for production');
+  }
+
+  // ProfilePage + Person JSON-LD checks
+  if (page.isProfilePage) {
+    if (html.includes('"ProfilePage"')) {
+      pass('ProfilePage JSON-LD present');
+    } else {
+      fail('Missing ProfilePage JSON-LD (@type: ProfilePage)');
+    }
+    if (html.includes('"Person"')) {
+      pass('Person JSON-LD present');
+    } else {
+      fail('Missing Person JSON-LD (@type: Person)');
+    }
+    if (html.includes('"Rizkallah Ayoub"')) {
+      pass('Person name = Rizkallah Ayoub');
+    } else {
+      fail('Person JSON-LD name is not "Rizkallah Ayoub"');
+    }
+    if (html.includes('"Rizk Ayoub"')) {
+      pass('alternateName includes Rizk Ayoub');
+    } else {
+      fail('alternateName does not include "Rizk Ayoub"');
+    }
+    if (html.includes('"#rizk-ayoub"') || html.includes('/#rizk-ayoub')) {
+      pass('Person @id present');
+    } else {
+      fail('Person @id (#rizk-ayoub) missing from JSON-LD');
+    }
   }
 }
 

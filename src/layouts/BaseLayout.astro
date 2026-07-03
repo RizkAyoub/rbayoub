@@ -9,6 +9,14 @@ interface Props {
   title: string;
   description: string;
   currentPage?: string;
+  /** Override the computed canonical URL (e.g. for profile pages with trailing slash) */
+  canonicalUrl?: string;
+  /** Override the computed alternate-language hreflang URL */
+  alternateUrl?: string;
+  /** Override the x-default hreflang href (defaults to site root /) */
+  xDefaultUrl?: string;
+  /** Suppress the default ProfessionalService JSON-LD (e.g. on ProfilePage pages) */
+  suppressOrgJsonLd?: boolean;
 }
 
 const {
@@ -16,6 +24,10 @@ const {
   title,
   description,
   currentPage = '',
+  canonicalUrl,
+  alternateUrl,
+  xDefaultUrl,
+  suppressOrgJsonLd = false,
 } = Astro.props;
 
 const t = getContent(lang);
@@ -29,11 +41,14 @@ function normalizePath(path: string): string {
 
 const rawPath = Astro.url.pathname;
 const canonicalPath = normalizePath(rawPath);
-const canonicalURL = new URL(canonicalPath, Astro.site);
+// Use explicit override when provided (profile pages need trailing slash)
+const canonicalURL = canonicalUrl ? new URL(canonicalUrl) : new URL(canonicalPath, Astro.site);
 
 const alternateLang = lang === 'en' ? 'fr' : 'en';
 const alternatePath = normalizePath(getAlternatePath(rawPath, alternateLang));
-const alternateURL = new URL(alternatePath, Astro.site);
+const alternateURL = alternateUrl ? new URL(alternateUrl) : new URL(alternatePath, Astro.site);
+
+const xDefaultURL = xDefaultUrl ? new URL(xDefaultUrl) : new URL('/', Astro.site);
 ---
 
 <!doctype html>
@@ -53,8 +68,7 @@ const alternateURL = new URL(alternatePath, Astro.site);
     <!-- Alternate language -->
     <link rel="alternate" hreflang={lang} href={canonicalURL} />
     <link rel="alternate" hreflang={alternateLang} href={alternateURL} />
-    <!-- x-default points to the root language gateway, not a specific locale -->
-    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={xDefaultURL} />
 
     <!-- Open Graph (no image — editorial text-only brand) -->
     <meta property="og:type" content="website" />
@@ -69,8 +83,8 @@ const alternateURL = new URL(alternatePath, Astro.site);
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
 
-    <!-- JSON-LD: Organization -->
-    <script type="application/ld+json" set:html={JSON.stringify({
+    <!-- JSON-LD: Organization (suppressed on ProfilePage pages) -->
+    {!suppressOrgJsonLd && <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "@id": "https://rbayoub.com/#organization",
@@ -103,7 +117,10 @@ const alternateURL = new URL(alternatePath, Astro.site);
         "contactType": "Business"
       },
       "sameAs": ["https://www.linkedin.com/in/rbayoub"]
-    })} />
+    })} />}
+
+    <!-- Additional head content (e.g. ProfilePage JSON-LD) -->
+    <slot name="head" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -4,7 +4,9 @@ const SITE = 'https://rbayoub.com';
 const LASTMOD = new Date().toISOString().split('T')[0];
 
 // Home pages use trailing slash; all internal pages use no trailing slash.
-// x-default points to the root language gateway (/), not /en/.
+// Profile pages also use trailing slash (matches their canonical convention).
+// x-default for standard pages points to the root language gateway (/);
+// profile pages use a custom urlEntry that sets x-default to the EN profile URL.
 const ROUTES = [
   { en: '/en/',        fr: '/fr/' },
   { en: '/en/services', fr: '/fr/services' },
@@ -14,18 +16,29 @@ const ROUTES = [
   { en: '/en/contact', fr: '/fr/contact' },
 ];
 
-function urlEntry(loc: string, enPath: string, frPath: string): string {
+// Profile pages have a different x-default (EN profile, not site root)
+const PROFILE_ROUTES = [
+  { en: '/en/rizk-ayoub/', fr: '/fr/rizk-ayoub/' },
+];
+
+function urlEntry(loc: string, enPath: string, frPath: string, xDefault = '/'): string {
   return `  <url>
     <loc>${SITE}${loc}</loc>
     <lastmod>${LASTMOD}</lastmod>
     <xhtml:link rel="alternate" hreflang="en"        href="${SITE}${enPath}"/>
     <xhtml:link rel="alternate" hreflang="fr"        href="${SITE}${frPath}"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}${xDefault}"/>
   </url>`;
 }
 
 export const GET: APIRoute = () => {
-  const entries = ROUTES.flatMap(({ en, fr }) => [urlEntry(en, en, fr), urlEntry(fr, en, fr)]);
+  const entries = [
+    ...ROUTES.flatMap(({ en, fr }) => [urlEntry(en, en, fr), urlEntry(fr, en, fr)]),
+    ...PROFILE_ROUTES.flatMap(({ en, fr }) => [
+      urlEntry(en, en, fr, en),
+      urlEntry(fr, en, fr, en),
+    ]),
+  ];
 
   const xml = [
     '<?xml version="1.0" encoding="UTF-8"?>',
