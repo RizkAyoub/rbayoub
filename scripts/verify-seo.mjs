@@ -65,6 +65,8 @@ if (!sitemap) {
     `${SITE}/fr/contact`,
     `${SITE}/en/rizk-ayoub/`,
     `${SITE}/fr/rizk-ayoub/`,
+    `${SITE}/en/rizkallah-ayoub/`,
+    `${SITE}/fr/rizkallah-ayoub/`,
   ];
 
   for (const u of requiredURLs) {
@@ -102,6 +104,11 @@ if (!sitemap) {
     } else {
       fail(`Profile x-default missing: expected href="${SITE}/en/rizk-ayoub/" in sitemap`);
     }
+    if (sitemap.includes(`href="${SITE}/en/rizkallah-ayoub/"`)) {
+      pass(`Legal name profile x-default → ${SITE}/en/rizkallah-ayoub/`);
+    } else {
+      fail(`Legal name profile x-default missing: expected href="${SITE}/en/rizkallah-ayoub/" in sitemap`);
+    }
   } else {
     fail('No x-default hreflang in sitemap');
   }
@@ -137,6 +144,25 @@ const pages = [
     hreflangFr: `${SITE}/fr/rizk-ayoub/`,
     xDefault: `${SITE}/en/rizk-ayoub/`,
     isProfilePage: true,
+  },
+  // Legal/research identity pages
+  {
+    file: 'en/rizkallah-ayoub/index.html',
+    canonical: `${SITE}/en/rizkallah-ayoub/`,
+    hreflangEn: `${SITE}/en/rizkallah-ayoub/`,
+    hreflangFr: `${SITE}/fr/rizkallah-ayoub/`,
+    xDefault: `${SITE}/en/rizkallah-ayoub/`,
+    isProfilePage: true,
+    checkDisambiguation: true,
+  },
+  {
+    file: 'fr/rizkallah-ayoub/index.html',
+    canonical: `${SITE}/fr/rizkallah-ayoub/`,
+    hreflangEn: `${SITE}/en/rizkallah-ayoub/`,
+    hreflangFr: `${SITE}/fr/rizkallah-ayoub/`,
+    xDefault: `${SITE}/en/rizkallah-ayoub/`,
+    isProfilePage: true,
+    checkDisambiguation: true,
   },
 ];
 
@@ -239,6 +265,14 @@ for (const page of pages) {
       pass('Person @id present');
     } else {
       fail('Person @id (#rizk-ayoub) missing from JSON-LD');
+    }
+
+    if (page.checkDisambiguation) {
+      if (html.includes('"disambiguatingDescription"')) {
+        pass('disambiguatingDescription present in JSON-LD');
+      } else {
+        fail('disambiguatingDescription missing from Person JSON-LD');
+      }
     }
   }
 }

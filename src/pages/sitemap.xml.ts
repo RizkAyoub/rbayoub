@@ -18,7 +18,8 @@ const ROUTES = [
 
 // Profile pages have a different x-default (EN profile, not site root)
 const PROFILE_ROUTES = [
-  { en: '/en/rizk-ayoub/', fr: '/fr/rizk-ayoub/' },
+  { en: '/en/rizk-ayoub/',         fr: '/fr/rizk-ayoub/' },
+  { en: '/en/rizkallah-ayoub/',    fr: '/fr/rizkallah-ayoub/' },
 ];
 
 function urlEntry(loc: string, enPath: string, frPath: string, xDefault = '/'): string {

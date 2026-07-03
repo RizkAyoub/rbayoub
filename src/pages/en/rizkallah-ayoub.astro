@@ -3,8 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const lang = 'en';
 
-const CANONICAL = 'https://rbayoub.com/en/rizk-ayoub/';
-const CANONICAL_FR = 'https://rbayoub.com/fr/rizk-ayoub/';
+const CANONICAL    = 'https://rbayoub.com/en/rizkallah-ayoub/';
+const CANONICAL_FR = 'https://rbayoub.com/fr/rizkallah-ayoub/';
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -17,15 +17,16 @@ const personJsonLd = {
     "givenName": "Rizkallah",
     "additionalName": "Rizk",
     "familyName": "Ayoub",
+    "disambiguatingDescription": "Rizkallah Ayoub is the legal and research name of Rizk Ayoub, the Laval and Montréal-based solutions architect associated with RB AYOUB Solutions Inc., EPICORTEK Technologies Inc., and AgIS.",
     "description": "Rizkallah Ayoub, publicly and professionally known as Rizk Ayoub, is a Laval and Montréal-based solutions architect, founder of RB AYOUB Solutions Inc. and EPICORTEK Technologies Inc., and creator of AgIS, the Agent Identity System.",
     "jobTitle": "Principal and Senior Solutions Architect",
-    "url": CANONICAL,
+    "url": "https://rbayoub.com/en/rizk-ayoub/",
     "sameAs": [
+      "https://rbayoub.com/en/rizk-ayoub/",
       "https://www.linkedin.com/in/rbayoub",
-      "https://github.com/epicortek",
       "https://epicortek.com/en/agis/",
       "https://epicortek.com/en/company",
-      "https://rbayoub.com/en/company"
+      "https://github.com/epicortek"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -58,8 +59,8 @@ const personJsonLd = {
 
 <BaseLayout
   lang={lang}
-  title="Rizk Ayoub | Rizkallah Ayoub — Solutions Architect and Founder"
-  description="Rizk Ayoub is the public and professional name of Rizkallah Ayoub, his legal and research name. He is a Laval and Montréal-based solutions architect, founder of RB AYOUB Solutions Inc. and EPICORTEK Technologies Inc., and creator of AgIS."
+  title="Rizkallah Ayoub | Legal and Research Name of Rizk Ayoub"
+  description="Rizkallah Ayoub is the legal and research name of Rizk Ayoub, a Laval and Montréal-based solutions architect, founder of RB AYOUB Solutions Inc. and EPICORTEK Technologies Inc., and creator of AgIS."
   currentPage=""
   canonicalUrl={CANONICAL}
   alternateUrl={CANONICAL_FR}
@@ -72,9 +73,9 @@ const personJsonLd = {
     <div class="container">
 
       <header class="page-header">
-        <p class="eyebrow">Principal Architect</p>
-        <h1 id="profile-headline" class="page-headline font-display">Rizk Ayoub</h1>
-        <p class="subtitle">Solutions Architect, Founder of RB AYOUB Solutions Inc. and EPICORTEK Technologies Inc.</p>
+        <p class="eyebrow">Legal and research name</p>
+        <h1 id="profile-headline" class="page-headline font-display">Rizkallah Ayoub</h1>
+        <p class="subtitle">Legal and research name of <a href="/en/rizk-ayoub/" class="subtle-link">Rizk Ayoub</a></p>
       </header>
 
       <hr class="rule" />
@@ -82,7 +83,10 @@ const personJsonLd = {
       <!-- Opening -->
       <div class="profile-section">
         <p class="body-text lead">
-          Rizk Ayoub is the public and professional name of <strong>Rizkallah Ayoub</strong>. Rizkallah Ayoub is his legal and research name, used for legal documents, formal authorship, academic papers, and future arXiv publications. He is a Laval and Montréal-based solutions architect, the founder of RB AYOUB Solutions Inc. and EPICORTEK Technologies Inc., and the creator of AgIS, the Agent Identity System.
+          Rizkallah Ayoub is the legal and research name of <a href="/en/rizk-ayoub/" class="inline-link">Rizk Ayoub</a>, a Laval and Montréal-based solutions architect, founder of RB AYOUB Solutions Inc. and EPICORTEK Technologies Inc., and creator of AgIS, the Agent Identity System.
+        </p>
+        <p class="disambiguation-note">
+          This profile refers to the Laval and Montréal-based technology architect associated with RB AYOUB Solutions Inc., EPICORTEK Technologies Inc., and AgIS.
         </p>
       </div>
 
@@ -95,10 +99,7 @@ const personJsonLd = {
         </div>
         <div class="row-body">
           <p class="body-text">
-            <strong>Rizkallah Ayoub</strong> is used for legal and research contexts. <strong>Rizk Ayoub</strong> is used as the shorter public and professional name in consulting, software, and company communications. Both names refer to the same person.
-          </p>
-          <p class="body-text name-crosslink">
-            Legal and research name: <a href="/en/rizkallah-ayoub/" class="inline-link">Rizkallah Ayoub</a>
+            <strong>Rizkallah Ayoub</strong> is used for legal documents, formal authorship, academic papers, and future arXiv publications. <strong>Rizk Ayoub</strong> is the shorter public and professional name used in consulting, software, and company communications. Both names refer to the same person.
           </p>
         </div>
       </div>
@@ -112,7 +113,7 @@ const personJsonLd = {
         </div>
         <div class="row-body">
           <p class="body-text">
-            Rizk Ayoub works on the design and governance of complex technology systems — including enterprise and solution architecture, AI and agentic systems, cloud-native platforms, distributed and blockchain infrastructure, and technical documentation for regulated and high-stakes environments. He operates primarily through RB AYOUB Solutions Inc., a boutique architecture and consulting firm based in Laval, Québec.
+            Rizkallah Ayoub (Rizk Ayoub) works on the design and governance of complex technology systems — including enterprise and solution architecture, AI and agentic systems, cloud-native platforms, distributed and blockchain infrastructure, and technical documentation for regulated and high-stakes environments. He operates primarily through RB AYOUB Solutions Inc., a boutique architecture and consulting firm based in Laval, Québec.
           </p>
         </div>
       </div>
@@ -132,7 +133,7 @@ const personJsonLd = {
             </li>
             <li>
               <strong><a href="https://epicortek.com" class="inline-link">EPICORTEK Technologies Inc.</a></strong>
-              — Product and R&D company focused on trusted synthetic intelligence infrastructure. Creator of AgIS, the Agent Identity System, and related protocols. The two companies are distinct; RB AYOUB Solutions Inc. provides services, EPICORTEK Technologies Inc. develops products.
+              — Product and R&D company focused on trusted synthetic intelligence infrastructure. Creator of AgIS and related protocols. The two companies are distinct; RB AYOUB Solutions Inc. provides services, EPICORTEK Technologies Inc. develops products.
             </li>
           </ul>
         </div>
@@ -161,7 +162,7 @@ const personJsonLd = {
         </div>
         <div class="row-body">
           <p class="body-text">
-            Academic papers, arXiv preprints, and formal research publications may be attributed to <strong>Rizkallah Ayoub</strong>, which is the legal and research name. References to Rizkallah Ayoub and to Rizk Ayoub designate the same person. This page is the canonical public reference for reconciling both name forms.
+            Academic papers, arXiv preprints, and formal research publications may be attributed to <strong>Rizkallah Ayoub</strong>, which is the legal and research name. References to Rizkallah Ayoub and to Rizk Ayoub designate the same person. The professional profile at <a href="/en/rizk-ayoub/" class="inline-link">rbayoub.com/en/rizk-ayoub/</a> is the canonical public reference for reconciling both name forms.
           </p>
         </div>
       </div>
@@ -175,6 +176,7 @@ const personJsonLd = {
         </div>
         <div class="row-body">
           <ul class="links-list" role="list">
+            <li><a href="/en/rizk-ayoub/" class="inline-link">Public and professional profile — Rizk Ayoub</a></li>
             <li><a href="https://rbayoub.com" class="inline-link">RB AYOUB Solutions Inc.</a></li>
             <li><a href="https://epicortek.com" class="inline-link">EPICORTEK Technologies Inc.</a></li>
             <li><a href="https://epicortek.com/en/agis/" class="inline-link">AgIS — Agent Identity System</a></li>
@@ -187,8 +189,8 @@ const personJsonLd = {
       <hr class="rule" />
 
       <div class="page-cta">
-        <a href="/en/company" class="btn btn-primary">View company profile</a>
-        <a href="/en/contact" class="btn btn-secondary">Discuss a mandate</a>
+        <a href="/en/rizk-ayoub/" class="btn btn-primary">Professional profile</a>
+        <a href="/en/company" class="btn btn-secondary">View company</a>
       </div>
 
     </div>
@@ -222,9 +224,25 @@ const personJsonLd = {
     margin: 0;
   }
 
-  /* ── Opening paragraph ── */
+  .subtle-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1px;
+    transition: color 0.18s, border-color 0.18s;
+  }
+
+  .subtle-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  /* ── Opening section ── */
   .profile-section {
     padding-block: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 
   .lead {
@@ -232,6 +250,17 @@ const personJsonLd = {
     line-height: 1.85;
     color: var(--color-ink);
     max-width: 70ch;
+    margin: 0;
+  }
+
+  .disambiguation-note {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+    border-left: 2px solid var(--color-border);
+    padding-left: 1.25rem;
+    max-width: 62ch;
+    margin: 0;
   }
 
   /* ── Two-column rows ── */
@@ -262,11 +291,6 @@ const personJsonLd = {
     color: var(--color-muted);
     margin: 0;
     max-width: 62ch;
-  }
-
-  .name-crosslink {
-    margin-top: 1rem;
-    font-size: 0.875rem;
   }
 
   /* ── Company list ── */
