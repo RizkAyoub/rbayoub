@@ -7,34 +7,34 @@ export const en = {
   meta: {
     siteName: 'RB AYOUB Solutions Inc.',
     home: {
-      title: 'RB AYOUB Solutions Inc. — Senior Technology Architecture',
+      title: 'RB AYOUB Solutions Inc. | Senior Technology Architecture Consulting',
       description:
-        'Canadian boutique technology architecture firm for complex systems, cloud platforms, AI workflows, distributed infrastructure, blockchain systems, and technical governance.',
+        'RB AYOUB Solutions Inc. is a Laval-based technology architecture consulting firm. We design and govern complex systems — cloud, AI, blockchain, and regulated infrastructure — for organizations across Québec and Canada.',
     },
     services: {
-      title: 'Services — RB AYOUB Solutions Inc.',
+      title: 'Services | RB AYOUB Solutions Inc.',
       description:
-        'Senior architecture and technical advisory services for architecture reviews, solution design, AI systems, cloud platforms, blockchain infrastructure, and technical governance.',
+        'Architecture reviews, solution design, AI systems architecture, cloud platform strategy, blockchain infrastructure, and technical governance — delivered by RB AYOUB Solutions Inc. from Laval, Québec.',
     },
     work: {
-      title: 'Representative Work — RB AYOUB Solutions Inc.',
+      title: 'Selected Work | RB AYOUB Solutions Inc.',
       description:
-        'Representative architecture engagements across regulated, enterprise, financial, public-sector, AI, and distributed systems contexts.',
+        'Representative architecture engagements across regulated, enterprise, financial, public-sector, AI, and distributed systems contexts in Canada.',
     },
     method: {
-      title: 'Method — RB AYOUB Solutions Inc.',
+      title: 'Method | RB AYOUB Solutions Inc.',
       description:
-        'A disciplined method for architectural clarity: mandate, mapping, risk, target architecture, documentation, and governance.',
+        'A disciplined architectural method: mandate scoping, system mapping, risk analysis, target architecture, documentation, and delivery governance.',
     },
     company: {
-      title: 'Company — RB AYOUB Solutions Inc.',
+      title: 'Company | RB AYOUB Solutions Inc.',
       description:
-        'RB AYOUB Solutions Inc. is a Canadian boutique technology architecture firm based in Laval, Québec, led by senior solutions architect Rizk Ayoub.',
+        'RB AYOUB Solutions Inc. is a Canadian boutique technology architecture firm based in Laval, Québec, led by principal architect Rizk Ayoub.',
     },
     contact: {
-      title: 'Contact — RB AYOUB Solutions Inc.',
+      title: 'Contact | RB AYOUB Solutions Inc.',
       description:
-        'Discuss an architecture review, advisory engagement, technical documentation package, or delivery governance mandate.',
+        'Discuss a technology architecture mandate with RB AYOUB Solutions Inc. — architecture reviews, solution design, AI systems, cloud platforms, and delivery governance.',
     },
   },
 
@@ -385,8 +385,8 @@ export const en = {
     emailLabel: 'Email',
     email: 'hello@rbayoub.com',
     linkedinLabel: 'LinkedIn',
-    linkedin: 'linkedin.com/in/rbayoub',
-    linkedinHref: 'https://linkedin.com/in/rbayoub',
+    linkedin: 'linkedin.com/company/rb-ayoub',
+    linkedinHref: 'https://linkedin.com/company/rb-ayoub',
   },
 
   footer: {

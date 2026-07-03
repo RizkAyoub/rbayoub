@@ -1,38 +1,149 @@
 ---
-// Root: detect language, redirect to /en/ or /fr/
-// This runs at build time; the client-side script handles runtime detection.
+// Root gateway page — language detection + crawlable fallback
+// Serves as the x-default target for hreflang across the site.
 ---
 
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>RB AYOUB Solutions Inc.</title>
-    <meta name="robots" content="noindex, follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RB AYOUB Solutions Inc. | Senior Technology Architecture Consulting</title>
+    <meta
+      name="description"
+      content="RB AYOUB Solutions Inc. is a Laval-based technology architecture consulting firm serving organizations in Montréal, Québec, and across Canada."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#F5F3EF" />
+    <link rel="canonical" href="https://rbayoub.com/" />
+
+    <!-- Hreflang — self + alternates + x-default (itself) -->
+    <link rel="alternate" hreflang="en" href="https://rbayoub.com/en/" />
+    <link rel="alternate" hreflang="fr" href="https://rbayoub.com/fr/" />
+    <link rel="alternate" hreflang="x-default" href="https://rbayoub.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RB AYOUB Solutions Inc." />
+    <meta property="og:title" content="RB AYOUB Solutions Inc. | Senior Technology Architecture Consulting" />
+    <meta property="og:description" content="RB AYOUB Solutions Inc. is a Laval-based technology architecture consulting firm serving organizations in Montréal, Québec, and across Canada." />
+    <meta property="og:url" content="https://rbayoub.com/" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="RB AYOUB Solutions Inc. | Senior Technology Architecture Consulting" />
+    <meta name="twitter:description" content="RB AYOUB Solutions Inc. is a Laval-based technology architecture consulting firm serving organizations in Montréal, Québec, and across Canada." />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Client-side language detection (UX only; crawlers see the links below) -->
     <script is:inline>
       (function () {
-        // 1. Check stored preference
         var stored = localStorage.getItem('rba-lang');
         if (stored === 'fr' || stored === 'en') {
           window.location.replace('/' + stored + '/');
           return;
         }
-        // 2. Detect browser language
-        var lang = navigator.language || navigator.languages?.[0] || 'en';
+        var lang = (navigator.language || (navigator.languages && navigator.languages[0]) || 'en');
         var target = lang.toLowerCase().startsWith('fr') ? 'fr' : 'en';
         localStorage.setItem('rba-lang', target);
         window.location.replace('/' + target + '/');
       })();
     </script>
-    <!-- Fallback for no-JS: redirect to English -->
-    <noscript>
-      <meta http-equiv="refresh" content="0; url=/en/" />
-    </noscript>
   </head>
+
   <body>
-    <p style="font-family: sans-serif; padding: 2rem;">
-      Redirecting… <a href="/en/">Continue in English</a> ·
-      <a href="/fr/">Continuer en français</a>
-    </p>
+    <main>
+      <div class="gateway">
+        <p class="wordmark">RB AYOUB Solutions Inc.</p>
+        <p class="tagline">Senior architecture for systems that cannot afford improvisation.</p>
+        <p class="location">Laval, Québec · Canada</p>
+        <nav aria-label="Language selection">
+          <ul>
+            <li><a href="/en/">Continue in English</a></li>
+            <li><a href="/fr/">Continuer en français</a></li>
+          </ul>
+        </nav>
+      </div>
+    </main>
   </body>
 </html>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: #F5F3EF;
+    color: #161615;
+    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .gateway {
+    text-align: center;
+    max-width: 400px;
+  }
+
+  .wordmark {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #161615;
+    margin: 0 0 1.5rem;
+  }
+
+  .tagline {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #6F6B63;
+    margin: 0 0 0.5rem;
+  }
+
+  .location {
+    font-size: 0.75rem;
+    color: #6F6B63;
+    letter-spacing: 0.04em;
+    margin: 0 0 2.5rem;
+    opacity: 0.8;
+  }
+
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: #263B33;
+    text-decoration: none;
+    border-bottom: 1px solid #DCD8D0;
+    padding-bottom: 2px;
+    transition: border-color 0.18s, color 0.18s;
+  }
+
+  nav a:hover {
+    border-color: #263B33;
+  }
+</style>

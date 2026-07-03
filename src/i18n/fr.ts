@@ -9,34 +9,34 @@ export const fr: ContentSchema = {
   meta: {
     siteName: 'RB AYOUB Solutions Inc.',
     home: {
-      title: 'RB AYOUB Solutions Inc. — Architecture technologique senior',
+      title: 'RB AYOUB Solutions Inc. | Conseil en architecture technologique senior',
       description:
-        'Firme boutique canadienne d\'architecture technologique pour systèmes complexes, plateformes cloud, workflows IA, infrastructure distribuée, systèmes blockchain et gouvernance technique.',
+        'RB AYOUB Solutions Inc. est une firme d\'architecture technologique basée à Laval, au Québec. Nous concevons et gouvernons des systèmes complexes — cloud, IA, blockchain et infrastructure réglementée — pour des organisations partout au Canada.',
     },
     services: {
-      title: 'Services — RB AYOUB Solutions Inc.',
+      title: 'Services | RB AYOUB Solutions Inc.',
       description:
-        'Services d\'architecture senior et de conseil technique pour revues d\'architecture, conception de solutions, systèmes IA, plateformes cloud, infrastructure blockchain et gouvernance technique.',
+        'Revues d\'architecture, conception de solutions, architecture de systèmes IA, stratégie de plateformes cloud, infrastructure blockchain et gouvernance technique — par RB AYOUB Solutions Inc., à Laval, Québec.',
     },
     work: {
-      title: 'Mandats — RB AYOUB Solutions Inc.',
+      title: 'Réalisations | RB AYOUB Solutions Inc.',
       description:
-        'Mandats d\'architecture représentatifs dans des contextes réglementés, d\'entreprise, financiers, publics, IA et systèmes distribués.',
+        'Mandats d\'architecture représentatifs dans des contextes réglementés, d\'entreprise, financiers, publics, IA et systèmes distribués au Canada.',
     },
     method: {
-      title: 'Méthode — RB AYOUB Solutions Inc.',
+      title: 'Méthode | RB AYOUB Solutions Inc.',
       description:
-        'Une méthode disciplinée pour la clarté architecturale : mandat, cartographie, risque, architecture cible, documentation et gouvernance.',
+        'Une méthode architecturale disciplinée : cadrage du mandat, cartographie des systèmes, analyse des risques, architecture cible, documentation et gouvernance de livraison.',
     },
     company: {
-      title: 'Société — RB AYOUB Solutions Inc.',
+      title: 'Firme | RB AYOUB Solutions Inc.',
       description:
-        'RB AYOUB Solutions Inc. est une firme boutique canadienne d\'architecture technologique basée à Laval, Québec, dirigée par l\'architecte senior Rizk Ayoub.',
+        'RB AYOUB Solutions Inc. est une firme boutique canadienne d\'architecture technologique basée à Laval, Québec, dirigée par l\'architecte principal Rizk Ayoub.',
     },
     contact: {
-      title: 'Contact — RB AYOUB Solutions Inc.',
+      title: 'Contact | RB AYOUB Solutions Inc.',
       description:
-        'Discuter d\'une revue d\'architecture, d\'un mandat-conseil, d\'un dossier de documentation technique ou d\'une gouvernance de livraison.',
+        'Discutez d\'un mandat d\'architecture technologique avec RB AYOUB Solutions Inc. — revues, conception de solutions, systèmes IA, plateformes cloud et gouvernance de livraison.',
     },
   },
 
@@ -387,8 +387,8 @@ export const fr: ContentSchema = {
     emailLabel: 'Courriel',
     email: 'hello@rbayoub.com',
     linkedinLabel: 'LinkedIn',
-    linkedin: 'linkedin.com/in/rbayoub',
-    linkedinHref: 'https://linkedin.com/in/rbayoub',
+    linkedin: 'linkedin.com/company/rb-ayoub',
+    linkedinHref: 'https://linkedin.com/company/rb-ayoub',
   },
 
   footer: {

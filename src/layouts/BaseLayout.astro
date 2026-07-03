@@ -19,9 +19,20 @@ const {
 } = Astro.props;
 
 const t = getContent(lang);
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Normalize paths: language home pages (/en/, /fr/) keep their trailing slash;
+// all other pages use the no-trailing-slash form to match navigation hrefs.
+function normalizePath(path: string): string {
+  if (/^\/(en|fr)\/$/.test(path)) return path; // /en/ and /fr/ — keep as-is
+  return path.replace(/\/$/, '');              // /en/services/ → /en/services
+}
+
+const rawPath = Astro.url.pathname;
+const canonicalPath = normalizePath(rawPath);
+const canonicalURL = new URL(canonicalPath, Astro.site);
+
 const alternateLang = lang === 'en' ? 'fr' : 'en';
-const alternatePath = getAlternatePath(Astro.url.pathname, alternateLang);
+const alternatePath = normalizePath(getAlternatePath(rawPath, alternateLang));
 const alternateURL = new URL(alternatePath, Astro.site);
 ---
 
@@ -42,7 +53,8 @@ const alternateURL = new URL(alternatePath, Astro.site);
     <!-- Alternate language -->
     <link rel="alternate" hreflang={lang} href={canonicalURL} />
     <link rel="alternate" hreflang={alternateLang} href={alternateURL} />
-    <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site)} />
+    <!-- x-default points to the root language gateway, not a specific locale -->
+    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site)} />
 
     <!-- Open Graph (no image — editorial text-only brand) -->
     <meta property="og:type" content="website" />
@@ -61,20 +73,36 @@ const alternateURL = new URL(alternatePath, Astro.site);
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
+      "@id": "https://rbayoub.com/#organization",
       "name": "RB AYOUB Solutions Inc.",
-      "description": "Canadian boutique technology architecture and consulting firm.",
       "url": "https://rbayoub.com",
+      "description": "Canadian boutique technology architecture and consulting firm.",
+      "founder": {
+        "@type": "Person",
+        "name": "Rizk Ayoub",
+        "jobTitle": "Principal and Senior Solutions Architect"
+      },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Laval",
         "addressRegion": "QC",
         "addressCountry": "CA"
       },
+      "areaServed": ["Québec", "Canada"],
+      "serviceType": [
+        "Solution Architecture",
+        "Enterprise Architecture",
+        "AI Systems Architecture",
+        "Cloud Platform Architecture",
+        "Blockchain Architecture",
+        "Technical Governance"
+      ],
       "contactPoint": {
         "@type": "ContactPoint",
         "email": "hello@rbayoub.com",
         "contactType": "Business"
-      }
+      },
+      "sameAs": ["https://linkedin.com/company/rb-ayoub"]
     })} />
 
     <!-- Favicon -->
